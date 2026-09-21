@@ -1,0 +1,331 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# **Implementación en Python**\n",
+        "Lo anterior se puede implementar en Python de la siguiente manera.\n",
+        "\n",
+        "Definimos las entradas entradas 𝓧1 y 𝓧2, los pesos 𝟂1 y 𝟂2.\n"
+      ],
+      "metadata": {
+        "id": "VWTmBIs3TWTM"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Realiza el ejemplo de la operación **AND**"
+      ],
+      "metadata": {
+        "id": "vEzaiKxp_kUm"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "K6l3xq7IRe95"
+      },
+      "outputs": [],
+      "source": [
+        "import numpy as np\n",
+        "# Entradas para la neurona\n",
+        "X = np.array([\n",
+        "    [0, 0],\n",
+        "    [0, 1],\n",
+        "    [1, 0],\n",
+        "    [1, 1]\n",
+        "])\n",
+        "# Salidas\n",
+        "Y = np.array([0, 0, 0, 1])\n",
+        "# Pesos para las entradas\n",
+        "W = [1, 1]\n",
+        "# Umbral para la función de activación\n",
+        "umbral = 2"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "class McCullochPitts:\n",
+        "    def __init__(self, weights, umbral):\n",
+        "        \"\"\"\n",
+        "            Constructor de la neurona MCP.\n",
+        "            Guarda las variables\n",
+        "            weights -> vector de pesos iniciales\n",
+        "            umbral -> umbral para usar en la funcion de activación\n",
+        "        \"\"\"\n",
+        "        self.weights = weights\n",
+        "        self.umbral = umbral\n",
+        "\n",
+        "    def predict(self, X):\n",
+        "        \"\"\"\n",
+        "            Calcula la salida de la neurona para cada fila de entradas X.\n",
+        "        \"\"\"\n",
+        "        # Lista donde se guardarán las salidas\n",
+        "        predictions = []\n",
+        "        # Recorremos cada fila de entradas\n",
+        "        for i in range(X.shape[0]):\n",
+        "            # Calculamos la suma ponderada: w1*x1 + w2*x2\n",
+        "            weighted_sum = np.dot(self.weights, X[i])\n",
+        "            # Mostramos en consola la entrada y la suma ponderada\n",
+        "            print(f\"Input: {X[i]}, Weighted Sum: {weighted_sum}\")\n",
+        "            # Comparación con el umbral determinar si la neurona se activa o no\n",
+        "            if weighted_sum >= self.umbral:\n",
+        "                predictions.append(1)\n",
+        "            else:\n",
+        "                predictions.append(0)\n",
+        "        return predictions"
+      ],
+      "metadata": {
+        "id": "A5P9xOlfTH2p"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Instanciamos la clase McCullochPitts\n",
+        "mcp = McCullochPitts(W, umbral)\n",
+        "# Calculamos las predicciones\n",
+        "predictions = mcp.predict(X)\n",
+        "# Mostramos el resultado final\n",
+        "print(\"Predictions:\", predictions)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "c6AAPyqjTKae",
+        "outputId": "cc5979de-7fcd-48bf-8d3a-5ca686882758"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Input: [0 0], Weighted Sum: 0\n",
+            "Input: [0 1], Weighted Sum: 1\n",
+            "Input: [1 0], Weighted Sum: 1\n",
+            "Input: [1 1], Weighted Sum: 2\n",
+            "Predictions: [0, 0, 0, 1]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Realiza el ejemplo de la operación **OR**"
+      ],
+      "metadata": {
+        "id": "at04G-hi_tnl"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "x = np.array([\n",
+        "    [0, 0],\n",
+        "    [0, 1],\n",
+        "    [1, 0],\n",
+        "    [1, 1]\n",
+        "])\n",
+        "y = np.array([0, 1, 1, 1])\n",
+        "w = [1, 1]\n",
+        "umbral = 2"
+      ],
+      "metadata": {
+        "id": "-wmIJ7S_TNTX"
+      },
+      "execution_count": 4,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "class McCullochPitts:\n",
+        "    def __init__(self, weights, umbral):\n",
+        "        \"\"\"\n",
+        "            Constructor de la neurona MCP.\n",
+        "            Guarda las variables\n",
+        "            weights -> vector de pesos iniciales\n",
+        "            umbral -> umbral para usar en la funcion de activación\n",
+        "        \"\"\"\n",
+        "        self.weights = weights\n",
+        "        self.umbral = umbral\n",
+        "\n",
+        "    def predict(self, X):\n",
+        "        \"\"\"\n",
+        "            Calcula la salida de la neurona para cada fila de entradas X.\n",
+        "        \"\"\"\n",
+        "        # Lista donde se guardarán las salidas\n",
+        "        predictions = []\n",
+        "        # Recorremos cada fila de entradas\n",
+        "        for i in range(X.shape[0]):\n",
+        "            # Calculamos la suma ponderada: w1*x1 + w2*x2\n",
+        "            weighted_sum = np.dot(self.weights, X[i])\n",
+        "            # Mostramos en consola la entrada y la suma ponderada\n",
+        "            print(f\"Input: {X[i]}, Weighted Sum: {weighted_sum}\")\n",
+        "            # Comparación con el umbral determinar si la neurona se activa o no\n",
+        "            if weighted_sum >= self.umbral:\n",
+        "                predictions.append(1)\n",
+        "            else:\n",
+        "                predictions.append(0)\n",
+        "        return predictions"
+      ],
+      "metadata": {
+        "id": "8YusdvTYAvqm"
+      },
+      "execution_count": 5,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Instanciamos la clase McCullochPitts\n",
+        "mcp = McCullochPitts(w, umbral)\n",
+        "# Calculamos las predicciones\n",
+        "predictions = mcp.predict(x)\n",
+        "# Mostramos el resultado final\n",
+        "print(\"Predictions:\", predictions)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "SlljRJ3yCRV_",
+        "outputId": "ab04d7a0-4347-4a43-87e0-2dca77e2d92e"
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Input: [0 0], Weighted Sum: 0\n",
+            "Input: [0 1], Weighted Sum: 1\n",
+            "Input: [1 0], Weighted Sum: 1\n",
+            "Input: [1 1], Weighted Sum: 2\n",
+            "Predictions: [0, 0, 0, 1]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Realiza el ejemplo de la operación **NOT**"
+      ],
+      "metadata": {
+        "id": "gDCYlMDJDOUl"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np\n",
+        "x = np.array([\n",
+        "    [0],\n",
+        "    [1]\n",
+        "])\n",
+        "y = np.array([1, 0])\n",
+        "#El umbral debe de ser negativo para invertirlo\n",
+        "w = [-1]\n",
+        "umbral = 0"
+      ],
+      "metadata": {
+        "id": "AMd-7NZkDNC1"
+      },
+      "execution_count": 19,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "class McCullochPitts:\n",
+        "    def __init__(self, weights, umbral):\n",
+        "        \"\"\"\n",
+        "            Constructor de la neurona MCP.\n",
+        "            Guarda las variables\n",
+        "            weights -> vector de pesos iniciales\n",
+        "            umbral -> umbral para usar en la funcion de activación\n",
+        "        \"\"\"\n",
+        "        self.weights = weights\n",
+        "        self.umbral = umbral\n",
+        "\n",
+        "    def predict(self, X):\n",
+        "        \"\"\"\n",
+        "            Calcula la salida de la neurona para cada fila de entradas X.\n",
+        "        \"\"\"\n",
+        "        # Lista donde se guardarán las salidas\n",
+        "        predictions = []\n",
+        "        # Recorremos cada fila de entradas\n",
+        "        for i in range(X.shape[0]):\n",
+        "            # Calculamos la suma ponderada: w1*x1 + w2*x2\n",
+        "            weighted_sum = np.dot(self.weights, X[i])\n",
+        "            # Mostramos en consola la entrada y la suma ponderada\n",
+        "            print(f\"Input: {X[i]}, Weighted Sum: {weighted_sum}\")\n",
+        "            # Comparación con el umbral determinar si la neurona se activa o no\n",
+        "            if weighted_sum >= self.umbral:\n",
+        "                predictions.append(1)\n",
+        "            else:\n",
+        "                predictions.append(0)\n",
+        "        return predictions"
+      ],
+      "metadata": {
+        "id": "qDw7qHRWD9Os"
+      },
+      "execution_count": 14,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Instanciamos la clase McCullochPitts\n",
+        "mcp = McCullochPitts(w, umbral)\n",
+        "# Calculamos las predicciones\n",
+        "predictions = mcp.predict(x)\n",
+        "# Mostramos el resultado final\n",
+        "print(\"Predictions:\", predictions)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "2SY-CU7AEwyt",
+        "outputId": "e5417baa-e659-4b1d-c88a-2be6d6bcf69b"
+      },
+      "execution_count": 20,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Input: [0], Weighted Sum: 0\n",
+            "Input: [1], Weighted Sum: -1\n",
+            "Predictions: [1, 0]\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
